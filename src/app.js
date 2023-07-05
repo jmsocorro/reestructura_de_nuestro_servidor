@@ -4,10 +4,10 @@ import mongoose from "mongoose";
 import session from "express-session";
 import cookieParser from "cookie-parser";
 import passport from "passport";
-import dotenv from "dotenv";
 
 import { Server } from "socket.io";
 
+import config from "./config/config.js";
 import apiProductsRouter from "./routes/apiProducts.router.js";
 import productsRouter from "./routes/products.router.js";
 import apiCartsRouter from "./routes/apiCarts.router.js";
@@ -21,7 +21,6 @@ import { messageModel } from "./dao/models/messageModel.js";
 
 mongoose.set("strictQuery", false);
 
-dotenv.config();
 
 const app = express();
 app.use(express.json());
@@ -33,7 +32,7 @@ app.set("view engine", "handlebars");
 app.use(cookieParser());
 app.use(
     session({
-        secret: process.env.SESSION_SECRET,
+        secret: config.SESSION_SECRET,
         resave: true,
         saveUninitialized: true,
     })
@@ -58,7 +57,7 @@ app.use(express.static(__dirname + "/public"));
 
 try {
     await mongoose.connect(
-        "mongodb+srv://"+process.env.MONGO_USER+":"+process.env.MONGO_PASS+"@cluster0.zzswcza.mongodb.net/ecommerce",
+        config.MONGO_URL,
         {
             serverSelectionTimeoutMS: 5000,
         }

@@ -1,7 +1,6 @@
 import passport from "passport";
 import local from "passport-local";
 import passport_jwt, { ExtractJwt } from "passport-jwt";
-import dotenv from "dotenv";
 import GitHubStrategy from "passport-github2";
 import { userModel } from "../dao/models/users.Model.js";
 import {
@@ -10,8 +9,7 @@ import {
     generateToken,
     extractCookie,
 } from "../utils.js";
-
-dotenv.config();
+import config from "./config.js";
 
 const LocalStrategy = local.Strategy;
 const GithubStrategy = GitHubStrategy.Strategy;
@@ -83,8 +81,8 @@ const initializePassport = () => {
             async (username, password, done) => {
                 try {
                     if (
-                        username === process.env.ADMIN_MAIL &&
-                        password === process.env.ADMIN_PASS
+                        username === config.ADMIN_EMAIL &&
+                        password === config.ADMIN_PASSWORD
                     ) {
                         adminuser = {
                             first_name: "Admin",
@@ -121,8 +119,8 @@ const initializePassport = () => {
         "github",
         new GitHubStrategy(
             {
-                clientID: process.env.CLIENT_ID,
-                clientSecret: process.env.CLIENT_SECRET,
+                clientID: config.CLIENT_ID,
+                clientSecret: config.CLIENT_SECRET,
                 callbackURL: "http://localhost:8080/githubcallback",
                 scope: ["user:email"],
             },
@@ -158,7 +156,7 @@ const initializePassport = () => {
         new JWTStrategy(
             {
                 jwtFromRequest: ExtractJwt.fromExtractors([extractCookie]),
-                secretOrKey: process.env.JWT_SECRET,
+                secretOrKey: config.JWT_SECRET,
             },
             async (jwt_payload, done) => {
                 done(null, jwt_payload.user);

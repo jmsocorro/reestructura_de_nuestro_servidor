@@ -1,10 +1,8 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import passport from "passport";
-import dotenv from "dotenv";
 
-dotenv.config();
-
+import config from "./config/config.js";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 const __filename = fileURLToPath(import.meta.url);
@@ -19,13 +17,13 @@ export const isValidPassword = (user, password) => {
 export default __dirname;
 
 export const generateToken = (user) => {
-    const token = jwt.sign({ user }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ user }, config.JWT_SECRET, {
         expiresIn: "24h",
     });
     return token;
 };
 export const extractCookie = (req) => {
-    return req && req.cookies ? req.cookies[process.env.JWT_COOKIE] : null;
+    return req && req.cookies ? req.cookies[config.JWT_COOKIE] : null;
 };
 export const passportAuthenticate = (strategy) => {
     return async (req, res, next) => {
@@ -61,9 +59,8 @@ export const passportAuthenticateApi = (strategy) => {
                 return res.status(401).send({
                     error: "No existe una sesión de usuario activa",
                 });
-                req.user = user;
+            req.user = user;
             next();
         })(req, res, next);
     };
 };
-

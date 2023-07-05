@@ -1,4 +1,4 @@
-import { userModel } from "./models/users.Model.js";
+import { userModel } from "../models/users.Model.js";
 import bcrypt from "bcrypt";
 
 class UserManagerDB {

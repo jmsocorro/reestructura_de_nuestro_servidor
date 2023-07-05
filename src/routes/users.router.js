@@ -1,10 +1,9 @@
 import { Router } from "express";
 import passport from "passport";
-import dotenv from "dotenv";
-import { UserManagerDB } from "../dao/UserManagerDB.js";
+import { UserManagerDB } from "../dao/controllers/UserManagerDB.js";
 import { generateToken, userLogged, passportAuthenticateApi } from "../utils.js";
+import config from '../config/config.js'
 
-dotenv.config();
 
 const router = Router();
 const user = new UserManagerDB();
@@ -30,7 +29,7 @@ router.post(
             delete req.user.password;
             delete req.user._id;
             delete req.user.__v;
-            res.cookie(process.env.JWT_COOKIE, req.user.token).redirect(
+            res.cookie(config.JWT_COOKIE, req.user.token).redirect(
                 "/products",
             );
         }
@@ -55,7 +54,7 @@ router.post(
     },
 );
 router.get("/logout", (req, res) => {
-    res.clearCookie(process.env.JWT_COOKIE).redirect("login");
+    res.clearCookie(config.JWT_COOKIE).redirect("login");
 });
 router.get("/failureregister", (req, res) => {
     res.render("register", {
@@ -89,7 +88,7 @@ router.get(
         delete req.user.__v;
         const token = generateToken(req.user);
         req.user.token = token;
-        res.cookie(process.env.JWT_COOKIE, req.user.token).redirect(
+        res.cookie(config.JWT_COOKIE, req.user.token).redirect(
             "/products",
         );
     },

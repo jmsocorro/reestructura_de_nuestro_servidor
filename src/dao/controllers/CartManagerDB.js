@@ -1,5 +1,5 @@
-import { cartModel } from "../dao/models/cart.model.js";
-import { productModel } from "./models/product.model.js";
+import { cartModel } from "../models/cart.model.js";
+import { productModel } from "../models/product.model.js";
 
 class CartManagerDB {
     getCarts = async (limit = 10, page = 1, query = "{}", sort) => {
