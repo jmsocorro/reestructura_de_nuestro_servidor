@@ -21,7 +21,6 @@ import { messageModel } from "./dao/models/messageModel.js";
 
 mongoose.set("strictQuery", false);
 
-
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -56,12 +55,9 @@ app.use(
 app.use(express.static(__dirname + "/public"));
 
 try {
-    await mongoose.connect(
-        config.MONGO_URL,
-        {
-            serverSelectionTimeoutMS: 5000,
-        }
-    );
+    await mongoose.connect(config.MONGO_URL, {
+        serverSelectionTimeoutMS: 5000,
+    });
     console.log("DB conected");
     const httpServer = app.listen(8080, () => {
         console.log("Server UP");

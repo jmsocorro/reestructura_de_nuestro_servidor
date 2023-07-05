@@ -14,8 +14,6 @@ export default {
     SESSION_SECRET: process.env.SESSION_SECRET,
     JWT_SECRET: process.env.JWT_SECRET,
     JWT_COOKIE: process.env.JWT_COOKIE,
-    MONGO_USER: process.env.MONGO_USER,
-    MONGO_PASS: process.env.MONGO_PASS,
     ADMIN_EMAIL: process.env.ADMIN_MAIL,
     ADMIN_PASSWORD: process.env.ADMIN_PASS,
 };

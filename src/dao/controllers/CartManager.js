@@ -1,6 +1,6 @@
 import * as fs from "fs";
 
-import { ProductManager } from "../dao/ProductManager.js";
+import { ProductManager } from "./ProductManager.js";
 
 const prod = new ProductManager("./src/data/productos.json");
 
